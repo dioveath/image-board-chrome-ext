@@ -20,7 +20,7 @@ imageBoard.id = 'imageBoard';
 
 inputImages.forEach(inputImage => {
     inputImage.addEventListener('click', async (event) => {
-        if(isImageBoardOpen()) {
+        if (isImageBoardOpen()) {
             imageBoard.remove();
             backDrop.remove();
             return;
@@ -49,7 +49,7 @@ inputImages.forEach(inputImage => {
 
     inputImage.addEventListener('change', (event) => {
         console.log('ImageBoard input change');
-        if(isImageBoardOpen()) {
+        if (isImageBoardOpen()) {
             imageBoard.remove();
             backDrop.remove();
         }
@@ -63,9 +63,21 @@ inputImages.forEach(inputImage => {
         reader.onload = () => {
             const base64 = reader.result;
 
-            chrome.storage.local.set({ 'recentImage': base64 }, () => {
-                console.log('ImageBoard storage updated');
+            // get the list of recent images from the local storage
+            chrome.storage.local.get(['recentImages'], (result) => {
+                // convert the list of recent images to array
+                let recentImages = result.recentImages ? result.recentImages.split('|') : [];
+                recentImages = recentImages.filter(image => image !== base64);
+                recentImages.push(base64);
+                
+                // remove the oldest image if the array is more than 5
+                if (recentImages.length > 5) { recentImages.shift(); }
+
+                recentImages = recentImages.join('|');
+                chrome.storage.local.set({ recentImages: recentImages });
             });
+
+
         };
 
         reader.onerror = (error) => {
@@ -115,35 +127,41 @@ async function initializeImageBoard(imageBoard, inputImageEvent) {
         }
 
         // get the recent image from the local storage
-        chrome.storage.local.get(['recentImage'], (result) => {
-            const imageCard = document.createElement('img');
-            imageCard.src = result.recentImage;
-            imageCard.style.width = '100px';
-            imageCard.style.height = '100px';
-            imageCard.style.objectFit = 'cover';
+        chrome.storage.local.get(['recentImages'], (result) => {
+            // convert the list of recent images to array
+            const recentImages = result.recentImages ? result.recentImages.split('|') : [];
 
-            imageCard.addEventListener('click', (event) => {
-                const base64 = result.recentImage;
-                const blob = base64ToBlob(base64);
+            recentImages.forEach(recentImage => {
+                const imageCard = document.createElement('img');
+                imageCard.src = recentImage;
+                imageCard.style.width = '100px';
+                imageCard.style.height = '100px';
+                imageCard.style.objectFit = 'cover';
 
-                const type = base64.split(';')[0].split(':')[1];
-                const fileType = type.split('/')[1];
-                console.log(type, fileType);
-                const file = new File([blob], `image_board_temp_${Date.now()}.${fileType}`, { type: type, lastModified: Date.now() });
+                imageCard.addEventListener('click', (event) => {
+                    const base64 = recentImage;
+                    const blob = base64ToBlob(base64);
 
-                const data = new DataTransfer();
-                data.items.add(file);
+                    const type = base64.split(';')[0].split(':')[1];
+                    const fileType = type.split('/')[1];
+                    console.log(type, fileType);
+                    const file = new File([blob], `image_board_temp_${Date.now()}.${fileType}`, { type: type, lastModified: Date.now() });
 
-                inputImageEvent.target.files = data.files;
-                inputImageEvent.target.dispatchEvent(new Event('change', { bubbles: true }));
+                    const data = new DataTransfer();
+                    data.items.add(file);
 
-                imageBoard.remove();
-                backDrop.remove();
+                    inputImageEvent.target.files = data.files;
+                    inputImageEvent.target.dispatchEvent(new Event('change', { bubbles: true }));
+
+                    imageBoard.remove();
+                    backDrop.remove();
+                });
+
+                imagesList.appendChild(imageCard);
             });
 
-            imagesList.appendChild(imageCard);
-        });            
-            
+        });
+
 
     } catch (error) {
         console.log(error);
