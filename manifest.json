@@ -1,31 +1,35 @@
 {
-    "manifest_version": 3,
-    "name": "ImageBoard",
-    "version": "1.0",
-    "description": "Copy/Paste multiple images to clipboard",
-    "icons": {
-        "16": "images/icon16.png",
-        "48": "images/icon48.png",
-        "128": "images/icon128.png"
+  "manifest_version": 3,
+  "name": "Easy Images - clipboard for Images",
+  "version": "1.0",
+  "description": "Copy/Paste multiple images to clipboard.",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "permissions": ["storage", "unlimitedStorage", "clipboardRead"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/ExtPay.js", "scripts/content.js"]
     },
-    "permissions": [
-        "storage",
-        "unlimitedStorage",
-        "clipboardRead"
-    ],    
-    "content_scripts": [{
-        "matches": ["<all_urls>"],
-        "js": ["scripts/content.js"]
-    }],
-    "background": {
-        "service_worker": "background.js"
-    },
-    "action": {
-        "default_icon": {
-            "16": "images/icon16.png",
-            "48": "images/icon48.png",
-            "128": "images/icon128.png"
-        }
+    {
+      "matches": ["https://extensionpay.com/*"],
+      "js": ["scripts/ExtPay.js"],
+      "run_at": "document_start"
     }
-
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    },
+    "default_title": "Easy Images",
+    "default_popup": "popup.html"
+  }
 }

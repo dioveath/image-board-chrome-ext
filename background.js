@@ -1,4 +1,13 @@
 console.log("background.js loaded")
+importScripts("scripts/ExtPay.js");
+
+const extPay = ExtPay('easy-image---clipboard-for-images');
+
+extPay.startBackground();
+
+extPay.getUser().then((user) => {
+    console.log(user);
+});
 
 chrome.runtime.onInstalled.addListener(() => {
     console.log("ImageBoard onInstalled");

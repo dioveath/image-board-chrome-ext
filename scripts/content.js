@@ -1,4 +1,14 @@
 console.log("content.js loaded");
+const extPay = ExtPay('easy-image---clipboard-for-images');
+
+const isProUser = async () => {
+    const user = await extPay.getUser();
+    return user.paid;
+};
+
+// extPay.getUser().then((user) => {
+//     console.log(user);
+// });
 
 const inputImages = document.querySelectorAll('input[type="file"][accept="image/*"]');
 
@@ -127,18 +137,27 @@ async function initializeImageBoard(imageBoard, inputImageEvent) {
         }
 
         // get the recent image from the local storage
-        chrome.storage.local.get(['recentImages'], (result) => {
+        chrome.storage.local.get(['recentImages'], async (result) => {
             // convert the list of recent images to array
             const recentImages = result.recentImages ? result.recentImages.split('|') : [];
+            recentImages.reverse();
 
-            recentImages.forEach(recentImage => {
+            const proUser = await isProUser();
+
+            recentImages.forEach((recentImage, index) => {
                 const imageCard = document.createElement('img');
                 imageCard.src = recentImage;
                 imageCard.style.width = '100px';
                 imageCard.style.height = '100px';
                 imageCard.style.objectFit = 'cover';
 
+
                 imageCard.addEventListener('click', (event) => {
+                    // if the user is not pro, then disable the last 4 recent images
+                    if (!proUser && index > 0) {
+                        return;
+                    }
+                    
                     const base64 = recentImage;
                     const blob = base64ToBlob(base64);
 
@@ -157,6 +176,12 @@ async function initializeImageBoard(imageBoard, inputImageEvent) {
                     backDrop.remove();
                 });
 
+                // if the user is not pro, then disable the recent images
+                if (!proUser && index > 0) {
+                    imageCard.style.filter = 'grayscale(100%)';
+                    imageCard.style.cursor = 'not-allowed';
+                }
+
                 imagesList.appendChild(imageCard);
             });
 
@@ -173,8 +198,16 @@ async function initializeImageBoard(imageBoard, inputImageEvent) {
         inputImageEvent.target.click();
     });
 
+    const payNow = document.createElement('button');
+    payNow.innerText = 'Become pro now';
+    payNow.addEventListener('click', (event) => {
+        extPay.openPaymentPage();
+    }, true);
+
+
     imageBoard.appendChild(button);
     imageBoard.appendChild(imagesList);
+    imageBoard.appendChild(payNow);
 }
 
 function isImageBoardOpen() {
