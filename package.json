@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "chrome-types": "^0.1.183"
+  },
+  "name": "imageboard",
+  "version": "0.9.0",
+  "description": "Clipboard for Images",
+  "main": "background.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "clipboard",
+    "image",
+    "imageboard",
+    "easy",
+    "files",
+    "upload",
+    "image",
+    "easy",
+    "easy",
+    "image",
+    "copy",
+    "paste"
+  ],
+  "author": "Saroj Rai",
+  "license": "ISC"
+}

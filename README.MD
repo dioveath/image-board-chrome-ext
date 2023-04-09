@@ -1,0 +1,2 @@
+## Image Board - Clipboard for Images
+Are you tried of painstakingly copying, screenshoting and uploading images? Image Board is the right tool for you. You screenshot it, upload it, Imageboard will have remember your files for your next upload.
