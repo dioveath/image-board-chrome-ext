@@ -6,103 +6,31 @@
     <link rel="stylesheet" href="slider.css">
 </head>
 <body>
-    <header>
-        <h1 style="width: 400px">ExtensionPay.com Sample Extension</h1>
-        <p style="font-size: 1.2rem;">User hasn't paid :(</p>
-        <button>Pay now</button>
-    </header>
+    <header class="easy-popup-header">
+        <h1 style="padding: 40px; margin-top: 20px; width: 400px; color: white; text-align: center;" class="easy-title"> Easy Image Board - Clipboard for images </h1>
 
-    <main>
-        <!-- Layout for ImageBoard -->        
-        <div class="easy-container">
-            <!-- Header -->
-            <div class="easy-header">
-                <img src="https://source.unsplash.com/random?landscape,bike" alt="ImageBoard Logo" style="width: 20px; height: 20px;"/>
-                <button class="btn btn-primary"> Icon to Review </button>
-            </div>
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <div class="buy-card">
+                <p style="width: 100%; font-size: 1.2rem; font-weight: 700; padding: 10px; background-color: green" class="easy-p"> Pro Easy Board  </p>
+                <ul class="easy-list easy-p">
+                    <li> Recently Used Images </li>
+                    <li> Multiple Images </li>
+                </ul>
 
-            <!-- Clipboard and Recently Used -->
-            <div class="easy-body">
-                <div class="easy-body-clipboard">
-                    <p class="easy-p"> Clipboard </p>
-                    <img src="https://source.unsplash.com/random?landscape,cars" alt="ImageBoard Logo" class="easy-image-card"/>
+                <div id="price-tag">
+                    <p style="font-size: 1.5rem; font-weight: 700; text-decoration: line-through;" class="easy-p"> $9 </p>        
+                    <p style="font-size: 1.4rem; font-weight: 500" class="easy-p"> $6 </p>
                 </div>
-                <div class="easy-body-recent">
-                    <p class="easy-p"> Recently Used </p>
-                    <div class="easy-slider">
-                        <div class="easy-slide">
-                            <img src="https://source.unsplash.com/random?landscape,mountain" alt="ImageBoard Logo" class="easy-image-card"/>
-                        </div>
-                        <div class="easy-slide">
-                            <img src="https://source.unsplash.com/random?landscape,mountain" alt="ImageBoard Logo" class="easy-image-card"/>
-                        </div>
-                        <div class="easy-slide">
-                            <img src="https://source.unsplash.com/random?landscape,mountain" alt="ImageBoard Logo" class="easy-image-card"/>
-                        </div>                                                    
-                        <div class="easy-slide">
-                            <img src="https://source.unsplash.com/random?landscape,mountain" alt="ImageBoard Logo" class="easy-image-card"/>
-                        </div>                                                                            
-                        <button class="easy-btn-slider easy-btn-next">></button>
-                        <button class="easy-btn-slider easy-btn-prev"><</button>
-                    </div>
-                    
-                    <!-- <div class="easy-overlap">
-                        <button class="easy-btn easy-btn-pro"> Become a pro user </button>
-                    </div> -->
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="easy-action">
-                <button class="easy-btn easy-btn-primary"> Show all files </button>
+                
+                <button class="easy-btn easy-btn-pro"> Get Launch Deal Now  </button>
             </div>
         </div>
-    </main>
+
+
+
+    </header>
 
     <script src="scripts/ExtPay.js"></script>
     <script src="popup.js"></script>
-
-    <script>
-        const slides = document.querySelectorAll(".easy-slide");
-        const gap = 17;
-
-        slides.forEach((slide, indx) => {
-            slide.style.transform = `translateX(${indx * (100 + gap) + gap * 2}%)`;
-        });
-
-        let currSlide = 0;
-        const maxSlide = slides.length;
-
-        const nextSlideButton = document.querySelector(".easy-btn-next");
-
-        nextSlideButton.addEventListener("click", () => {
-          if (currSlide === maxSlide - 1) {
-            // currSlide = 0;
-          } else {
-            currSlide++;
-          }
-
-          slides.forEach(
-            (slide, indx) =>
-              (slide.style.transform = `translateX(${(indx - currSlide) * (100 + gap) + gap * 2}%)`)
-          );
-        });
-
-        const prevSlideButton = document.querySelector(".easy-btn-prev");
-
-        prevSlideButton.addEventListener("click", () => {
-          if (currSlide === 0) {
-            // currSlide = maxSlide - 1;
-          } else {
-            currSlide--;
-          }
-
-          slides.forEach(
-            (slide, indx) =>
-              (slide.style.transform = `translateX(${(indx - currSlide) * (100 + gap) + gap * 2}%)`)
-          );
-        });
-
-    </script>
 </body>
 </html>

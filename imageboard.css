@@ -1,4 +1,227 @@
-.board {
-    background-color: aqua;
-    color: red;
+/* create a css var */
+:root {
+  /* shades of indigo */
+  --indigo-50: #e8eaf6;
+  --indigo-100: #c5cae9;
+  --indigo-200: #9fa8da;
+  --indigo-300: #7986cb;
+  --indigo-400: #5c6bc0;
+  --indigo-500: #3f51b5;
+  --indigo-600: #3949ab;
+  --indigo-700: #303f9f;
+  --indigo-800: #283593;
+  --indigo-900: #1a237e;
+
+  /* complimentary color for violet */
+  --violet-50: #f3e5f5;
+  --violet-100: #e1bee7;
+  --violet-200: #ce93d8;
+  --violet-300: #ba68c8;
+  --violet-400: #ab47bc;
+  --violet-500: #9c27b0;
+  --violet-600: #8e24aa;
+  --violet-700: #7b1fa2;
+  --violet-800: #6a1b9a;
+  --violet-900: #4a148c;
+
+  --pink-50: #fce4ec;
+  --pink-100: #f8bbd0;
+  --pink-200: #f48fb1;
+  --pink-300: #f06292;
+  --pink-400: #ec407a;
+  --pink-500: #e91e63;
+  --pink-600: #d81b60;
+  --pink-700: #c2185b;
+  --pink-800: #ad1457;
+  --pink-900: #880e4f;
+
+
+  /* linear gradient */
+  --linear-gradient: linear-gradient(45deg, var(--violet-900) 0%, var(--pink-900) 100%);
+  --back-linear-gradient: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+}
+
+.easy-container {
+  font-family: 'Anuphan', sans-serif;
+  padding: 10px;
+  width: 450px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: black; */
+  background: radial-gradient(780px at 37.8% 100.3%, rgb(19, 55, 115) 2.2%, rgb(32, 7, 80) 20.2%, rgb(27, 88, 111) 58.6%, rgb(115, 88, 44) 75%, rgb(99, 19, 90) 89.6%, rgb(12, 51, 76) 96.1%);
+  /* background-image: var(--back-linear-gradient); */
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.easy-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;  
+}
+
+.easy-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.easy-body {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.easy-footer {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;  
+}
+
+.easy-body-recent {
+  position: relative;
+  width: 100%;
+}
+
+.easy-image-card {
+  width: 150px;
+  height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+
+.easy-overlap {
+  position: absolute;
+  right: 0;
+  bottom: 0;  
+  transform: translateY(-50%);
+}
+
+.easy-action {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.easy-title {
+  padding: 10px;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  font-family: 'Anuphan', sans-serif;
+}
+
+.easy-title-small {
+  padding: 10px;
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #dfdfdf;
+  font-family: 'Anuphan', sans-serif;  
+}
+
+.easy-btn {
+  font-family: 'Anuphan', sans-serif;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  padding: 10px 30px;
+  border-radius: 10px;
+  border: 1px solid var(--violet-900);
+  box-shadow: 0 0 5px var(--violet-900);
+  transition: all 0.1s ease-in-out;
+}
+
+.easy-btn:active {
+  transform: scale(1.1);
+}
+
+.easy-btn:hover {
+  background-color: var(--violet-900);
+  color: white;
+}
+
+.easy-btn-pro {
+  color: white;
+  font-weight: 800;
+  font-size: 1.2em;
+
+  background: var(--violet-800);
+  background-image: var(--linear-gradient);
+  box-shadow: 2 2 4px var(--violet-800);
+}
+
+.easy-btn-primary {
+  background-color: var(--violet-800);
+  color: white;  
+}
+
+.easy-slider {
+  width: 100%;
+  max-width: 340px;
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.easy-slide {
+  width: 100%;
+  max-width: 170px;
+  height: 100px;
+  position: absolute;
+  transition: all 0.5s;
+}
+
+.easy-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.easy-btn-slider {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  z-index: 9999;
+  cursor: pointer;
+  background-color: var(--pink-800);
+  color: white;
+  font-size: 18px;
+}
+
+.easy-btn-prev {
+  top: 30%;
+  left: 2%;
+}
+
+.easy-btn-next {
+  top: 30%;
+  right: 2%;
+}
+
+.easy-close {
+  display: none;
 }

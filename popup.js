@@ -10,8 +10,9 @@ document.querySelector('button').addEventListener('click', extpay.openPaymentPag
 
 extpay.getUser().then(user => {
     if (user.paid) {
-        document.querySelector('p').innerHTML = 'User has paid! 🎉'
-        document.querySelector('button').remove()
+        document.querySelector('p').innerHTML = 'Thank you for your support!'
+        document.querySelector('#price-tag').innerHTML = '';
+        document.querySelector('button').innerHTML = 'Manage Subscription'
     }
 }).catch(err => {
     document.querySelector('p').innerHTML = "Error fetching data :( Check that your ExtensionPay id is correct and you're connected to the internet"

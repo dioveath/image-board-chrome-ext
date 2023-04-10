@@ -40,6 +40,7 @@
 
   /* linear gradient */
   --linear-gradient: linear-gradient(45deg, var(--violet-900) 0%, var(--pink-900) 100%);
+  --radial-gradient: radial-gradient(780px at 37.8% 100.3%, rgb(19, 55, 115) 2.2%, rgb(32, 7, 80) 20.2%, rgb(27, 88, 111) 58.6%, rgb(115, 88, 44) 75%, rgb(99, 19, 90) 89.6%, rgb(12, 51, 76) 96.1%);
 }
 
 .easy-container {
@@ -71,8 +72,6 @@
   gap: 10px;
 }
 
-.easy-body-clipboard {
-}
 
 .easy-body-recent {
   position: relative;
@@ -107,8 +106,16 @@
   padding: 0;
   margin: 0;
   font-size: 1.2em;
-  font-weight: 800;
   color: white;
+}
+
+.easy-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: white;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
 }
 
 .easy-btn {
@@ -137,13 +144,47 @@
   color: white;
   font-weight: 800;
   font-size: 1.2em;
-
+  margin-bottom: 20px;
   background: var(--violet-800);
   background-image: var(--linear-gradient);
-  box-shadow: 2 2 4px var(--violet-800);
+  box-shadow: 10 10 10 black;
 }
 
 .easy-btn-primary {
   background-color: var(--violet-800);
   color: white;  
+}
+
+.easy-popup-header {
+  width: 100%;
+  overflow: hidden;
+  background: #283593;
+  background: radial-gradient(780px at 37.8% 100.3%, rgb(19, 55, 115) 2.2%, rgb(32, 7, 80) 20.2%, rgb(27, 88, 111) 58.6%, rgb(115, 88, 44) 75%, rgb(99, 19, 90) 89.6%, rgb(12, 51, 76) 96.1%);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.easy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px 0px;
+}
+
+.buy-card {
+  margin: 20px;
+  margin-bottom: 50px;
+  width: 300px;
+  /* padding: 10px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background-image: var(--radial-gradient);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
 }
