@@ -1,4 +1,6 @@
 console.log("content.js loaded");
+
+
 const extPay = ExtPay('easy-image---clipboard-for-images');
 
 const isProUser = async () => {
@@ -6,9 +8,8 @@ const isProUser = async () => {
     return user.paid;
 };
 
-// extPay.getUser().then((user) => {
-//     console.log(user);
-// });
+const IMAGE_CARD_WIDTH = 100;
+const IMAGE_CARD_HEIGHT = 100;
 
 const inputImages = document.querySelectorAll('input[type="file"][accept="image/*"]');
 
@@ -41,6 +42,12 @@ inputImages.forEach(inputImage => {
         imageBoard.style.position = 'absolute';
         imageBoard.style.top = Math.max(0, Math.min(event.clientY, window.innerHeight - 200)) + 'px';
         imageBoard.style.left = Math.max(0, Math.min(event.clientX, window.innerWidth - 400)) + 'px';
+        imageBoard.style.padding = '20px';
+        imageBoard.style.borderRadius = '10px';
+        imageBoard.style.boxShadow = '0 0 10px 0 rgba(0,0,0,0.5)';
+        imageBoard.style.overflow = 'hidden';
+
+
 
         backDrop.style.position = 'fixed';
         backDrop.style.width = '100%';
@@ -52,7 +59,6 @@ inputImages.forEach(inputImage => {
         backDrop.id = 'backDrop';
 
         initializeImageBoard(imageBoard, event);
-
         document.body.appendChild(backDrop);
         document.body.appendChild(imageBoard);
     });
@@ -103,7 +109,14 @@ inputImages.forEach(inputImage => {
 async function initializeImageBoard(imageBoard, inputImageEvent) {
     imageBoard.innerHTML = '';
 
+    const clipBoardDiv = document.createElement('div');
+    clipBoardDiv.style.cssText = `width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; flex-direction: row; overflow: auto;`;
+
+    const recentImagesDiv = document.createElement('div');
+    
     const imagesList = document.createElement('ul');
+    imagesList.style.cssText = `width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; flex-direction: row; overflow: auto; overflow-y: hidden; overflow-x: auto;`;
+
     try {
         const clipboardItems = await navigator.clipboard.read();
         for (const item of clipboardItems) {
@@ -192,6 +205,9 @@ async function initializeImageBoard(imageBoard, inputImageEvent) {
         console.log(error);
     }
 
+    recentImagesDiv.appendChild(imagesList);
+    imageBoard.appendChild(recentImagesDiv);
+
     const button = document.createElement('button');
     button.innerText = 'Show all files';
     button.addEventListener('click', (event) => {
@@ -204,10 +220,13 @@ async function initializeImageBoard(imageBoard, inputImageEvent) {
         extPay.openPaymentPage();
     }, true);
 
+    const actionsDiv = document.createElement('div');
+    actionsDiv.style.cssText = `width: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; flex-direction: row; overflow: auto; justify-content: space-between;`;
 
-    imageBoard.appendChild(button);
-    imageBoard.appendChild(imagesList);
-    imageBoard.appendChild(payNow);
+    actionsDiv.appendChild(button);    
+    actionsDiv.appendChild(payNow);
+
+    imageBoard.appendChild(actionsDiv);
 }
 
 function isImageBoardOpen() {

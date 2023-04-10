@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Slider </title>
+    <link rel="stylesheet" href="slider.css" />
+
+</head>
+<body>
+        <!-- slider container -->
+    <div class="slider">
+
+    <!-- slide 1 -->
+    <div class="slide">
+        <img
+        src="https://source.unsplash.com/random?landscape,mountain"
+        alt=""
+        />
+    </div>
+
+    <!-- slide 2 -->
+    <div class="slide">
+        <img src="https://source.unsplash.com/random?landscape,cars" alt="" />
+    </div>
+
+    <!-- slide 3 -->
+    <div class="slide">
+        <img src="https://source.unsplash.com/random?landscape,night" alt="" />
+    </div>
+
+    <!-- slide 4 -->
+    <div class="slide">
+        <img src="https://source.unsplash.com/random?landscape,city" alt="" />
+    </div>
+
+    <!-- Control buttons -->
+    <button class="btn btn-next">></button>
+    <button class="btn btn-prev">< </button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll(".slide");
+
+        const gap = 20;
+
+        slides.forEach((slide, indx) => {
+            // transform each slide to the right by 100% of its width + gap
+            slide.style.transform = `translateX(${indx * (100 + gap)}%)`;            
+        });
+
+        let currSlide = 0;
+        const maxSlide = slides.length;
+
+        const nextSlideButton = document.querySelector(".btn-next");
+
+        nextSlideButton.addEventListener("click", () => {
+          if (currSlide === maxSlide - 1) {
+            // currSlide = 0;
+          } else {
+            currSlide++;
+          }
+
+          slides.forEach(
+            (slide, indx) =>
+              (slide.style.transform = `translateX(${(indx - currSlide) * (100 + gap)}%)`)
+          );
+        });
+
+        const prevSlideButton = document.querySelector(".btn-prev");
+
+        prevSlideButton.addEventListener("click", () => {
+          if (currSlide === 0) {
+            // currSlide = maxSlide - 1;
+          } else {
+            currSlide--;
+          }
+
+          slides.forEach(
+            (slide, indx) =>
+              (slide.style.transform = `translateX(${(indx - currSlide) * (100 + gap)}%)`)
+          );
+        });
+
+
+    </script>    
+</body>
+</html>

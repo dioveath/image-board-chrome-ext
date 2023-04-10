@@ -1,0 +1,52 @@
+/* body {
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background-color: black;
+  } */
+  
+  .easy-slider {
+    width: 100%;
+    max-width: 340px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .easy-slide {
+    width: 100%;
+    max-width: 170px;
+    height: 100px;
+    position: absolute;
+    transition: all 0.5s;
+  }
+  
+  .easy-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .easy-btn-slider {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    z-index: 10px;
+    cursor: pointer;
+    background-color: white;
+    font-size: 18px;
+  }
+  
+  
+  
+  .easy-btn-prev {
+    top: 30%;
+    left: 2%;
+  }
+  
+  .easy-btn-next {
+    top: 30%;
+    right: 2%;
+  }
