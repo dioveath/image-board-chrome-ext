@@ -1,16 +1,16 @@
 console.log("background.js loaded")
 importScripts("scripts/ExtPay.js");
 
-const extPay = ExtPay('easy-image---clipboard-for-images');
+const extPay = ExtPay('easy-image--clipboard-for-images');
 
 extPay.startBackground();
 
 extPay.getUser().then((user) => {
-    console.log(user);
+    // console.log(user);
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-    console.log("ImageBoard onInstalled");
+    // console.log("ImageBoard onInstalled");
 });
 
 // chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -65,8 +65,5 @@ chrome.storage.local.onChanged.addListener((changes, namespace) => {
         //     storageChange.newValue);
     }
 
-    console.log("ImageBoard storage onChanged Listener");
+    // console.log("ImageBoard storage onChanged Listener");
 });
-
-
-

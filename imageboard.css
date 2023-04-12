@@ -42,15 +42,16 @@
 }
 
 .easy-container {
-  font-family: 'Anuphan', sans-serif;
-  padding: 10px;
+  all: initial;
+  box-sizing: border-box;
+  padding: 10px 10px;
   width: 450px;
   height: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: black; */
-  background: radial-gradient(780px at 37.8% 100.3%, rgb(19, 55, 115) 2.2%, rgb(32, 7, 80) 20.2%, rgb(27, 88, 111) 58.6%, rgb(115, 88, 44) 75%, rgb(99, 19, 90) 89.6%, rgb(12, 51, 76) 96.1%);
+  background-color: #121212;
+  /* background: radial-gradient(780px at 37.8% 100.3%, rgb(19, 55, 115) 2.2%, rgb(32, 7, 80) 20.2%, rgb(27, 88, 111) 58.6%, rgb(115, 88, 44) 75%, rgb(99, 19, 90) 89.6%, rgb(12, 51, 76) 96.1%); */
   /* background-image: var(--back-linear-gradient); */
   border-radius: 10px;
   overflow: hidden;
@@ -123,25 +124,27 @@
 }
 
 .easy-title {
-  padding: 10px;
+  padding: 10px 10px;
   margin: 0;
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 600;
   color: white;
   font-family: 'Anuphan', sans-serif;
 }
 
 .easy-title-small {
-  padding: 10px;
+  padding: 10px 10px;
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 12px;
   font-weight: 500;
   color: #dfdfdf;
   font-family: 'Anuphan', sans-serif;  
 }
 
 .easy-btn {
+  all: revert;
   font-family: 'Anuphan', sans-serif;
+  box-sizing: border-box;
   border: none;
   cursor: pointer;
   background-color: transparent;
@@ -151,6 +154,7 @@
   border: 1px solid var(--violet-900);
   box-shadow: 0 0 5px var(--violet-900);
   transition: all 0.1s ease-in-out;
+  font-size: 12px;
 }
 
 .easy-btn:active {
@@ -165,7 +169,7 @@
 .easy-btn-pro {
   color: white;
   font-weight: 800;
-  font-size: 1.2em;
+  font-size: 18px;
 
   background: var(--violet-800);
   background-image: var(--linear-gradient);
@@ -204,12 +208,17 @@
   width: 40px;
   height: 40px;
   border: none;
+  padding: 10px 10px;
   border-radius: 50%;
   z-index: 9999;
   cursor: pointer;
   background-color: var(--pink-800);
   color: white;
   font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
 }
 
 .easy-btn-prev {

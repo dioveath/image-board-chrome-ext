@@ -129,6 +129,9 @@
   border: 1px solid var(--violet-900);
   box-shadow: 0 0 5px var(--violet-900);
   transition: all 0.1s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .easy-btn:active {

@@ -1,19 +1,61 @@
-console.log("content.js loaded");
+const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach(async (node) => {
+                // console.log('something added', node.nodeName);
+                if (node.nodeName === 'INPUT') {
+                    if (node.type === 'file') {                        
+                        console.log('input file added');
+                        await initImageBoard();
+                    }
+                }
+            });
+
+            mutation.removedNodes.forEach((node) => {
+                if (node.nodeName === 'INPUT') {
+                    if (node.type === 'file') {
+                        // console.log('input file removed');
+                    }
+                }
+            });
+        }
+    });
+});
+
+observer.observe(document.documentElement ||  document.body, { childList: true, subtree: true, characterData: true, attributes: true });
+
+window.onload = async () => { await initImageBoard(); };
+
+async function initImageBoard() {
+// wait for every dynamic content to load
+await new Promise(resolve => setTimeout(resolve, 1000));
+
+// console.log("content.js loaded");
+
+// check if there is backdrop and image board
+if (document.getElementById('backDrop') && document.getElementById('imageBoard')) {
+    document.getElementById('backDrop').remove();
+    document.getElementById('imageBoard').remove();
+    return;
+}
 
 
-const extPay = ExtPay('easy-image---clipboard-for-images');
+
+const extPay = ExtPay('easy-image--clipboard-for-images');
 
 const isProUser = async () => {
     const user = await extPay.getUser();
     return user.paid;
 };
 
+let inputImages = [];
+
 chrome.runtime.sendMessage({ message: 'insert-css' });
 
 const IMAGE_CARD_WIDTH = 100;
 const IMAGE_CARD_HEIGHT = 100;
 
-const inputImages = document.querySelectorAll('input[type="file"][accept="image/*"]');
+inputImages = document.querySelectorAll('input[type="file"]');
 
 const backDrop = document.createElement('div');
 backDrop.id = 'backDrop';
@@ -31,11 +73,11 @@ easyBody.classList.add('easy-body');
 const easyFooter = document.createElement('div');
 easyFooter.classList.add('easy-footer');
 
-const easyHeaderTitle = document.createElement('p');
+const easyHeaderTitle = document.createElement('div');
 easyHeaderTitle.classList.add('easy-title');
 easyHeaderTitle.innerText = 'Easy Image Board - Clipboard for Images';
 
-const closeImageBoardButton = document.createElement('button');
+const closeImageBoardButton = document.createElement('div');
 closeImageBoardButton.classList.add('easy-btn', 'easy-btn-primary');
 closeImageBoardButton.innerText = 'X';
 
@@ -53,7 +95,7 @@ clipBoardDiv.classList.add('easy-body-clipboard');
 const recentImagesDiv = document.createElement('div');
 recentImagesDiv.classList.add('easy-body-recent');
 
-const imagesListTitle = document.createElement('p');
+const imagesListTitle = document.createElement('div');
 imagesListTitle.classList.add('easy-title-small');
 imagesListTitle.innerText = 'Recent Images';
 
@@ -85,16 +127,21 @@ inputImages.forEach(inputImage => {
         event.preventDefault();
         backDrop.classList.remove('easy-close');
         imageBoard.classList.remove('easy-close');
-        imageBoard.style.position = 'absolute';
-        imageBoard.style.top = Math.max(0, Math.min(event.clientY, window.innerHeight - 200)) + 'px';
-        imageBoard.style.left = Math.max(0, Math.min(event.clientX, window.innerWidth - 400)) + 'px';
+        imageBoard.style.position = 'fixed';
+
+        
+        // set image board position to center of the screen
+        imageBoard.style.top = Math.max(0, Math.min(window.innerHeight / 2 - 100, window.innerHeight - 200)) + 'px';
+        imageBoard.style.left = Math.max(0, Math.min(window.innerWidth / 2 - 200, window.innerWidth - 400)) + 'px';
+
+        // imageBoard.style.top = Math.max(0, Math.min(event.pageY, window.innerHeight - 200)) + 'px';
+        // imageBoard.style.left = Math.max(0, Math.min(event.pageX, window.innerWidth - 400)) + 'px';
 
         initializeImages(imagesList, clipBoardDiv, event);
         initializeFooter(easyFooter, event);
     });
 
     inputImage.addEventListener('change', (event) => {
-        console.log('ImageBoard input change');
         if (isImageBoardOpen()) {
             closeImageBoard();
         }
@@ -138,26 +185,26 @@ async function initializeImages(slider, clipBoardDiv, inputImageEvent) {
     slider.innerHTML = '';
     clipBoardDiv.innerHTML = '';
 
-    const clipboardTitle = document.createElement('p');
+    const clipboardTitle = document.createElement('div');
     clipboardTitle.classList.add('easy-title-small');
     clipboardTitle.innerHTML = 'Clipboard Image';
     clipBoardDiv.appendChild(clipboardTitle);
 
-    const prevSlideBtn = document.createElement('button');
-    prevSlideBtn.classList.add('easy-btn-slider', 'easy-btn-prev');
+    const prevSlideBtn = document.createElement('div');
+    prevSlideBtn.classList.add('easy-btn', 'easy-btn-slider', 'easy-btn-prev');
     prevSlideBtn.innerHTML = '<';
     
-    const nextSlideBtn = document.createElement('button');
-    nextSlideBtn.classList.add('easy-btn-slider', 'easy-btn-next');
+    const nextSlideBtn = document.createElement('div');
+    nextSlideBtn.classList.add('easy-btn', 'easy-btn-slider', 'easy-btn-next');
     nextSlideBtn.innerHTML = '>';
     
     await slider.appendChild(prevSlideBtn);
     await slider.appendChild(nextSlideBtn);    
-    
+    let foundInClipboard = false;    
     try {
-        let foundInClipboard = false;
         const clipboardItems = await navigator.clipboard.read();
         for (const item of clipboardItems) {
+            console.log(item);
             for (const type of item.types) {
                 if (type.startsWith('image/') === false) continue;
                 const blob = await item.getType(type);
@@ -186,6 +233,10 @@ async function initializeImages(slider, clipBoardDiv, inputImageEvent) {
             }
         }
 
+     
+    } catch (error) {
+        console.log(error);
+    } finally {
         if (!foundInClipboard) { 
             // add a dummy image to the clipboard
             const imageCard = document.createElement('div');
@@ -193,7 +244,9 @@ async function initializeImages(slider, clipBoardDiv, inputImageEvent) {
             imageCard.innerHTML = 'No Image in Clipboard';
             clipBoardDiv.appendChild(imageCard);
         }
+    }
 
+    try {
         // get the recent image from the local storage
         chrome.storage.local.get(['recentImages'], async (result) => {
             // convert the list of recent images to array
@@ -266,7 +319,7 @@ async function initializeImages(slider, clipBoardDiv, inputImageEvent) {
 
 async function initializeFooter(footer, eventOnTarget){
     footer.innerHTML = '';
-    const button = document.createElement('button');
+    const button = document.createElement('div');
     button.innerText = 'Show all files';
     button.classList.add('easy-btn', 'easy-btn-primary');
 
@@ -281,7 +334,7 @@ async function initializeFooter(footer, eventOnTarget){
     try {
         const proUser = await isProUser();
         if (!proUser) {
-            const payNow = document.createElement('button');
+            const payNow = document.createElement('div');
             payNow.innerText = 'Become pro now';
             payNow.classList.add('easy-btn', 'easy-btn-pro');
         
@@ -323,3 +376,4 @@ backDrop.addEventListener('click', (event) => {
     closeImageBoard();
 });
 
+}
